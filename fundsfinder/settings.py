@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rap-&ea6!)-5i7&^znj8c8mexncm4d*0q=4$e%m$n0qlq=^2+6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -126,4 +127,38 @@ MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
+}
+
+
+# Django REST Framework Configuration (Capítulos 8 e 9 do E-book da Python Academy)
+REST_FRAMEWORK = {
+    # 1. Paginação dos Resultados:
+    # PageNumberPagination controla a divisão de registros em páginas numeradas.
+    # Definido PAGE_SIZE=2 para fins didáticos de validação e visualização clara dos atributos
+    # count, next, previous e results com os registros cadastrados na base de dados de teste.
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
+
+    # 2. Métodos Globais de Autenticação:
+    # SessionAuthentication habilita autenticação baseada em sessão (para Browsable API).
+    # BasicAuthentication permite o envio de usuário/senha no cabeçalho HTTP Authorization (para Postman/scripts).
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+
+    # 3. Políticas Globais de Permissão:
+    # Define como padrão que todo acesso aos endpoints da API requer autenticação prévia.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    # 4. Formatos Aceitos para Entrada de Datas:
+    # Padroniza os formatos que a API é capaz de interpretar na criação e atualização de registros.
+    'DATE_INPUT_FORMATS': [
+        '%d/%m/%Y',
+        '%Y-%m-%d',
+        '%d-%m-%y',
+        '%d-%m-%Y',
+    ],
 }

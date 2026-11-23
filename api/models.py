@@ -33,4 +33,9 @@ class FundoImobiliario(models.Model):
     quantidade_ativos = models.IntegerField(
         null=False, blank=False, default=0
     )
+    data_constituicao = models.DateField(
+        null=True, blank=True, verbose_name="Data de Constituição"
+    )
 
+    def __str__(self):
+        return f"{self.codigo} ({self.get_setor_display()})"
